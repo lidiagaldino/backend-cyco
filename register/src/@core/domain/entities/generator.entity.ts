@@ -1,15 +1,20 @@
 import { Guard } from "../shared/guard/guard"
 import { Result } from "../shared/result/result"
+import { Address } from "../value-objects/address.value-object"
+import { Password } from "../value-objects/password.value-object"
+import { Phone } from "../value-objects/phone.value-object"
+import { Url } from "../value-objects/url.value-object"
+import { Username } from "../value-objects/username.value-object"
 
 export type TGenerator = {
     name: string,
-    username: string, // create username value object
-    password: string, //create password value object
-    photo: string, //create url value object
+    username: Username,
+    password: Password,
+    photo: Url,
     birth_date: Date,
     document: string, //create document value object (cpf or cnpj)
-    phone: string, //create phone value object
-    address: string //create address value object
+    phone: Phone,
+    address: Address
 }
 
 export class Generator {
@@ -83,15 +88,15 @@ export class Generator {
         this.props.name = name
     }
 
-    public setUsername(username: string){
+    public setUsername(username: Username){
         this.props.username = username
     }
 
-    public setPassword(password: string){
+    public setPassword(password: Password){
         this.props.password = password
     }
 
-    public setPhoto(photo: string){
+    public setPhoto(photo: Url){
         this.props.photo = photo
     }
 
@@ -103,11 +108,11 @@ export class Generator {
         this.props.document = document
     }
 
-    public setPhone(phone: string){
+    public setPhone(phone: Phone){
         this.props.phone = phone
     }
 
-    public setAddress(address: string){
+    public setAddress(address: Address){
         this.props.address = address
     }
 }
