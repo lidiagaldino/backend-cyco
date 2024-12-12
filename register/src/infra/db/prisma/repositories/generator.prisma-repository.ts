@@ -10,6 +10,17 @@ import { User } from "../../../../@core/domain/entities/user.entity";
 export class GeneratorRepositoryImpl implements IGeneratorRepository {
   constructor(private readonly prisma: PrismaClient) { }
 
+  async findById(id: string): Promise<Generator> {
+    const result = await this.prisma.tbl_generator.findUnique({
+      where: { id },
+      include: {
+        user: true
+      }
+    })
+
+    return result ? this.mapOutput(result) : null
+  }
+
   async create(generator: Generator): Promise<Generator> {
     const result = await this.prisma.tbl_generator.create({
       data: {

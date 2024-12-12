@@ -10,6 +10,7 @@ import { generatorSchema } from '../../infra/validation/yup/schemas/generator.sc
 import { IPasswordCryptography } from '../../@core/domain/services/password-cryptography.service';
 import { TGeneratorInputDTO } from '../../@core/application/dto/input/generator.dto.input';
 import { IValidator } from '../../@core/domain/services/validator.service';
+import { FindGeneratorByIdUsecase } from '../../@core/application/usecases/generator/find-generator-by-id.usecase';
 
 @Module({
   controllers: [GeneratorController],
@@ -30,6 +31,15 @@ import { IValidator } from '../../@core/domain/services/validator.service';
         generatorSchema
       ),
       inject: [GeneratorRepositoryImpl, BcryptAdapter, YupAdapter]
+    },
+    {
+      provide: FindGeneratorByIdUsecase,
+      useFactory: (
+        repository: IGeneratorRepository
+      ) => new FindGeneratorByIdUsecase(
+        repository
+      ),
+      inject: [GeneratorRepositoryImpl]
     }
   ],
 })

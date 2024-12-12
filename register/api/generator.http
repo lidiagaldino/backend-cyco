@@ -13,3 +13,7 @@ Content-Type: application/json
     "number": 961869684
   }
 }
+
+###
+GET http://localhost:3000/generator/fe875bd7-1674-4e8d-a27a-e2c03f3c814a
+
