@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters } from '@nestjs/common';
 import { CreateDeliverymanUsecase } from '../../@core/application/usecases/deliveryman/create-deliveryman.usecase';
 import { TDeliverymanInputDTO } from '../../@core/application/dto/input/deliveryman.dto.input';
 import { FindDeliverymanByIdUsecase } from '../../@core/application/usecases/deliveryman/find-deliveryman-by-id.usecase';
+import { PrismaClientExceptionFilter } from '../../infra/error/prisma-client.exception-filter';
 
 @Controller('deliveryman')
+@UseFilters(PrismaClientExceptionFilter)
 export class DeliverymanController {
   constructor(
     private readonly createUsecase: CreateDeliverymanUsecase,
