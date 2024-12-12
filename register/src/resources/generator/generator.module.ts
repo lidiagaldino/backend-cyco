@@ -6,7 +6,7 @@ import { IGeneratorRepository } from '../../@core/domain/repositories/generator.
 import { prismaClient } from '../../infra/db/prisma';
 import { BcryptAdapter } from '../../infra/cryptography/password/bcrypt.adapter';
 import { YupAdapter } from '../../infra/validation/yup/yup.adapter';
-import { generatorSchema } from '../../infra/validation/schemas/generator.schema';
+import { generatorSchema } from '../../infra/validation/yup/schemas/generator.schema';
 import { IPasswordCryptography } from '../../@core/domain/services/password-cryptography.service';
 import { TGeneratorInputDTO } from '../../@core/application/dto/input/generator.dto.input';
 import { IValidator } from '../../@core/domain/services/validator.service';

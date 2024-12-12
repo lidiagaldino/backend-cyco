@@ -9,7 +9,7 @@ export type TGenerator = {
 }
 
 export class Generator {
-  private id: number
+  private id: string
   private props: TGenerator
 
   private constructor(props: TGenerator) {
@@ -56,5 +56,9 @@ export class Generator {
 
   public setUser(user: User) {
     this.props.user = user
+  }
+
+  public setId(id: string) {
+    this.id = id
   }
 }

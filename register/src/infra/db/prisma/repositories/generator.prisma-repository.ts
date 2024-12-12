@@ -43,12 +43,14 @@ export class GeneratorRepositoryImpl implements IGeneratorRepository {
       email: result.user.email,
       password: password
     }).getValue()
+    user.setId(result.user_id)
 
     const generator = Generator.create({
       birthDate: result.birthDate,
       document: result.document,
       user
     }).getValue()
+    generator.setId(result.id);
 
     return generator
   }

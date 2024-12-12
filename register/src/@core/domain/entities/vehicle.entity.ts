@@ -11,7 +11,7 @@ export type TVehicleProps = {
 }
 
 export class Vehicle {
-  private id: number
+  private id: string
   private props: TVehicleProps
 
   private constructor(props: TVehicleProps) {
@@ -63,7 +63,7 @@ export class Vehicle {
     return this.props.plate
   }
 
-  public setId(id: number) {
+  public setId(id: string) {
     this.id = id
   }
 

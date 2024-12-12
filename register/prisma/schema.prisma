@@ -14,12 +14,13 @@ datasource db {
 }
 
 model tbl_user {
-  id            String          @id @default(uuid())
-  email         String          @unique
-  password      String
-  phone         String          @unique
-  name          String
-  tbl_generator tbl_generator[]
+  id              String            @id @default(uuid())
+  email           String            @unique
+  password        String
+  phone           String            @unique
+  name            String
+  tbl_generator   tbl_generator[]
+  tbl_deliveryman tbl_deliveryman[]
 }
 
 model tbl_generator {
@@ -29,4 +30,81 @@ model tbl_generator {
   user      tbl_user @relation(fields: [user_id], references: [id])
 
   user_id String
+}
+
+model tbl_deliveryman {
+  id            String   @id @default(uuid())
+  licenseNumber String
+  birthDate     DateTime
+  user          tbl_user @relation(fields: [user_id], references: [id])
+
+  user_id                 String
+  tbl_vehicle_deliveryman tbl_vehicle_deliveryman[]
+}
+
+model tbl_vehicle_type {
+  id          String        @id @default(uuid())
+  type        String        @unique
+  tbl_vehicle tbl_vehicle[]
+}
+
+model tbl_vehicle_brand {
+  id          String        @id @default(uuid())
+  brand       String        @unique
+  tbl_vehicle tbl_vehicle[]
+}
+
+model tbl_vehicle_model {
+  id                        String                      @id @default(uuid())
+  model                     String                      @unique
+  tbl_vehicle_vehicle_model tbl_vehicle_vehicle_model[]
+  tbl_vehicle_deliveryman   tbl_vehicle_deliveryman[]
+}
+
+model tbl_color {
+  id                      String                    @id @default(uuid())
+  color                   String                    @unique
+  tbl_vehicle_color       tbl_vehicle_color[]
+  tbl_vehicle_deliveryman tbl_vehicle_deliveryman[]
+}
+
+model tbl_vehicle {
+  id                        String                      @id @default(uuid())
+  year                      Int
+  brand                     tbl_vehicle_brand           @relation(fields: [brand_id], references: [id])
+  brand_id                  String
+  tbl_vehicle_color         tbl_vehicle_color[]
+  type                      tbl_vehicle_type            @relation(fields: [type_id], references: [id])
+  type_id                   String
+  tbl_vehicle_vehicle_model tbl_vehicle_vehicle_model[]
+  tbl_vehicle_deliveryman   tbl_vehicle_deliveryman[]
+}
+
+model tbl_vehicle_color {
+  id         String      @id @default(uuid())
+  vehicle    tbl_vehicle @relation(fields: [vehicle_id], references: [id])
+  vehicle_id String
+  color      tbl_color   @relation(fields: [color_id], references: [id])
+  color_id   String
+}
+
+model tbl_vehicle_vehicle_model {
+  id         String            @id @default(uuid())
+  vehicle    tbl_vehicle       @relation(fields: [vehicle_id], references: [id])
+  vehicle_id String
+  model      tbl_vehicle_model @relation(fields: [model_id], references: [id])
+  model_id   String
+}
+
+model tbl_vehicle_deliveryman {
+  id             String            @id @default(uuid())
+  deliveryman    tbl_deliveryman   @relation(fields: [deliveryman_id], references: [id])
+  deliveryman_id String
+  vehicle        tbl_vehicle       @relation(fields: [vehicle_id], references: [id])
+  vehicle_id     String
+  plate          String
+  model          tbl_vehicle_model @relation(fields: [model_id], references: [id])
+  model_id       String
+  color          tbl_color         @relation(fields: [color_id], references: [id])
+  color_id       String
 }

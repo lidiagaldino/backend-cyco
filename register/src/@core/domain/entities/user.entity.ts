@@ -11,7 +11,7 @@ export type TUserProps = {
 }
 
 export class User {
-  private id: number
+  private id: string
   private props: TUserProps
 
   private constructor(props: TUserProps) {
@@ -52,7 +52,7 @@ export class User {
     return this.props.phone
   }
 
-  public setId(id: number) {
+  public setId(id: string) {
     this.id = id
   }
 

@@ -1,15 +1,17 @@
 import { Guard } from "../shared/guard/guard";
 import { Result } from "../shared/result/result";
+import { User } from "./user.entity";
 import { Vehicle } from "./vehicle.entity";
 
 export type TDeliverymanProps = {
   licenseNumber: string;
   birthDate: Date;
-  vehicle: Vehicle
+  vehicle: Vehicle;
+  user: User;
 }
 
 export class Deliveryman {
-  private id: number;
+  private id: string;
   private props: TDeliverymanProps;
 
   private constructor(props: TDeliverymanProps) {
@@ -21,6 +23,7 @@ export class Deliveryman {
       Guard.againstNullOrUndefined(deliveryman.licenseNumber, 'licenseNumber'),
       Guard.againstNullOrUndefined(deliveryman.birthDate, 'birthDate'),
       Guard.againstNullOrUndefined(deliveryman.vehicle, 'vehicle'),
+      Guard.againstNullOrUndefined(deliveryman.user, 'user'),
     ])
 
     if (guardResults.isFailure) {
@@ -46,7 +49,11 @@ export class Deliveryman {
     return this.props.vehicle
   }
 
-  public setId(id: number) {
+  public getUser() {
+    return this.props.user
+  }
+
+  public setId(id: string) {
     this.id = id
   }
 
@@ -60,5 +67,9 @@ export class Deliveryman {
 
   public setVehicle(vehicle: Vehicle) {
     this.props.vehicle = vehicle
+  }
+
+  public setUser(user: User) {
+    this.props.user = user
   }
 }

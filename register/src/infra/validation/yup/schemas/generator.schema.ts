@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { TGeneratorInputDTO } from '../../../@core/application/dto/input/generator.dto.input'
+import { TGeneratorInputDTO } from '../../../../@core/application/dto/input/generator.dto.input'
 
 export const generatorSchema: yup.SchemaOf<TGeneratorInputDTO> = yup.object().shape({
   email: yup.string().email().required(),
