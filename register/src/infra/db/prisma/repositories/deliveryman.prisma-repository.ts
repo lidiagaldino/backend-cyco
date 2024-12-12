@@ -12,6 +12,29 @@ export class DeliverymanRepositoryImpl implements IDeliverymanRepository {
     private readonly prisma: PrismaClient
   ) { }
 
+  async findById(id: string): Promise<Deliveryman> {
+    const result = await this.prisma.tbl_deliveryman.findUnique({
+      where: { id },
+      include: {
+        user: true,
+        tbl_vehicle_deliveryman: {
+          include: {
+            vehicle: {
+              include: {
+                brand: true,
+                tbl_vehicle_color: { select: { color: true } },
+                tbl_vehicle_vehicle_model: { select: { model: true } },
+                type: true,
+              }
+            }
+          }
+        }
+      }
+    })
+
+    return result ? this.mapOutput(result, result.tbl_vehicle_deliveryman[0].color_id, result.tbl_vehicle_deliveryman[0].model_id) : null
+  }
+
   async create(deliveryman: Deliveryman): Promise<Deliveryman> {
     const [color, model] = await Promise.all([
       this.prisma.tbl_color.findUnique({

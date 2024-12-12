@@ -12,6 +12,7 @@ import { TDeliverymanInputDTO } from '../../@core/application/dto/input/delivery
 import { IPasswordCryptography } from '../../@core/domain/services/password-cryptography.service';
 import { IValidator } from '../../@core/domain/services/validator.service';
 import { deliverymanSchema } from '../../infra/validation/yup/schemas/deliveryman.schema';
+import { FindDeliverymanByIdUsecase } from '../../@core/application/usecases/deliveryman/find-deliveryman-by-id.usecase';
 
 @Module({
   controllers: [DeliverymanController],
@@ -35,6 +36,15 @@ import { deliverymanSchema } from '../../infra/validation/yup/schemas/deliveryma
         deliverymanSchema
       ),
       inject: [DeliverymanRepositoryImpl, VehicleRepositoryImpl, BcryptAdapter, YupAdapter]
+    },
+    {
+      provide: FindDeliverymanByIdUsecase,
+      useFactory: (
+        repository: IDeliverymanRepository
+      ) => new FindDeliverymanByIdUsecase(
+        repository
+      ),
+      inject: [DeliverymanRepositoryImpl]
     }
   ],
 })

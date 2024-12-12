@@ -19,3 +19,6 @@ Content-Type: application/json
     "plate": "ECJ8744"
   }
 }
+
+###
+GET http://localhost:3000/deliveryman/3425cdf3-194e-4f00-86a2-17db910a732e
