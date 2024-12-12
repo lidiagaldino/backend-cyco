@@ -28,7 +28,6 @@ export class Phone {
    * @returns A Result object containing either a new instance of the Phone class or an error message.
    */
   public static create(props: TPhoneProps): Result<Phone> {
-    console.log(props)
     const guardResults = Guard.combine([
       Guard.againstNullOrUndefined(props, 'props'),
       Guard.againstNullOrUndefined(props?.ddd, 'ddd'),
