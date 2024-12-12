@@ -1,0 +1,15 @@
+POST http://localhost:3000/generator
+Content-Type: application/json
+
+{
+  "email": "lidia1@gmail.com",
+  "password": "lidia123456",
+  "birthDate": "2015-03-25T00:00:00.000Z",
+  "document": "47189168877",
+  "name": "Lídia Galdino 4",
+  "phone": {
+    "ddd": 11,
+    "ddi": 55,
+    "number": 961869684
+  }
+}

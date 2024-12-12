@@ -1,3 +1,4 @@
+import { log } from "console";
 import { Guard } from "../shared/guard/guard";
 import { Result } from "../shared/result/result";
 
@@ -27,13 +28,14 @@ export class Phone {
    * @returns A Result object containing either a new instance of the Phone class or an error message.
    */
   public static create(props: TPhoneProps): Result<Phone> {
+    console.log(props)
     const guardResults = Guard.combine([
       Guard.againstNullOrUndefined(props, 'props'),
       Guard.againstNullOrUndefined(props?.ddd, 'ddd'),
       Guard.againstNullOrUndefined(props?.ddi, 'ddi'),
       Guard.againstNullOrUndefined(props?.number, 'number'),
-      Guard.againstAtLeast(8, props?.number),
-      Guard.againstAtMost(9, props?.number),
+      Guard.againstAtLeast(8, props?.number.toString()),
+      Guard.againstAtMost(9, props?.number.toString()),
     ]);
     if (guardResults.isFailure) {
       return Result.fail<Phone>(guardResults.getErrorValue());
@@ -59,5 +61,13 @@ export class Phone {
    */
   getPhone(): string {
     return `+${this.getDdi()} (${this.getDdd()}) ${this.getNumber()}`;
+  }
+
+  public static createFromString(phone: string): Result<Phone> {
+    const [ddi, ddd, number] = phone.split(" ")
+    const formatedDdi = +ddi.substring(1)
+    const formatedDdd = +ddd.substring(0).substring(1, ddd.length - 1)
+    const newPhone = Phone.create({ ddi: formatedDdi, ddd: formatedDdd, number })
+    return newPhone
   }
 }
