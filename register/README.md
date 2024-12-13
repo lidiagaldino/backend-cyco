@@ -43,7 +43,8 @@ $ npm run start:dev
 ## Índice
 - [POST /deliveryman](#post-deliveryman)
 - [GET /deliveryman/:id](#get-deliverymanid)
-
+- [POST /generator](#post-generator)
+- [GET /generator/:id](#get-generatorid)
 ---
 
 # POST /deliveryman
