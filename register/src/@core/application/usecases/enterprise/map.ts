@@ -5,12 +5,8 @@ export const mapEnterpriseOutput = (enterprise: Enterprise): TEnterpriseOutputDT
   return {
     id: enterprise.getId(),
     address: {
-      address: enterprise.getAddress().getAddress(),
-      city: enterprise.getAddress().getCity(),
       complement: enterprise.getAddress().getComplement(),
-      neighborhood: enterprise.getAddress().getNeighborhood(),
       number: enterprise.getAddress().getNumber(),
-      uf: enterprise.getAddress().getUf(),
       zipCode: enterprise.getAddress().getZipCode()
     },
     commercialName: enterprise.getCommercialName(),

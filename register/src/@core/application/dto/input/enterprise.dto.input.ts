@@ -8,10 +8,6 @@ export type TEnterpriseInputDTO = {
   };
   address: {
     zipCode: string;
-    address: string;
-    uf: string;
-    city: string;
-    neighborhood: string;
     number: string;
     complement: string;
   }
