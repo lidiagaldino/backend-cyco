@@ -21,6 +21,7 @@ model tbl_user {
   name            String
   tbl_generator   tbl_generator[]
   tbl_deliveryman tbl_deliveryman[]
+  tbl_enterprise  tbl_enterprise[]
 }
 
 model tbl_generator {
@@ -107,4 +108,27 @@ model tbl_vehicle_deliveryman {
   model_id       String
   color          tbl_color         @relation(fields: [color_id], references: [id])
   color_id       String
+}
+
+model tbl_address {
+  id      String @id @default(uuid())
+  zipCode String
+}
+
+model tbl_enterprise_address {
+  id             String           @id @default(uuid())
+  number         String
+  complement     String
+  tbl_enterprise tbl_enterprise[]
+}
+
+model tbl_enterprise {
+  id             String                 @id @default(uuid())
+  commercialName String
+  modelName      String
+  document       String
+  address        tbl_enterprise_address @relation(fields: [address_id], references: [id])
+  user           tbl_user               @relation(fields: [user_id], references: [id])
+  user_id        String
+  address_id     String
 }
