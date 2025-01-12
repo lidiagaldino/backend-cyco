@@ -42,7 +42,6 @@ export class VehicleRepositoryImpl implements IVehicleRepository {
       }
     })
 
-    console.log(result)
     return result ? this.mapOutput(result, modelId, colorId) : null;
   }
 
