@@ -4,6 +4,11 @@ import { Result } from '../shared/result/result';
 export type TAddressProps = {
   city: string;
   uf: string;
+  zipCode: string;
+  neighborhood: string;
+  address: string;
+  number: string;
+  complement: string;
 };
 
 /**
@@ -30,6 +35,11 @@ export class Address {
     const guardResults = Guard.combine([
       Guard.againstNullOrUndefined(address.city, 'city'),
       Guard.againstNullOrUndefined(address.uf, 'uf'),
+      Guard.againstNullOrUndefined(address.zipCode, 'zipCode'),
+      Guard.againstNullOrUndefined(address.address, 'address'),
+      Guard.againstNullOrUndefined(address.number, 'number'),
+      Guard.againstNullOrUndefined(address.complement, 'complement'),
+      Guard.againstNullOrUndefined(address.neighborhood, 'neighborhood'),
       Guard.againstAtLeast(2, address?.city),
       Guard.againstAtLeast(2, address?.uf),
       Guard.againstAtMost(2, address?.uf),
@@ -54,5 +64,45 @@ export class Address {
    */
   getCity() {
     return this.props.city;
+  }
+
+  /**
+   * Gets the street of the address.
+   * @returns The street of the Address.
+   */
+  getAddress() {
+    return this.props.address;
+  }
+
+  /**
+   * Gets the zipcode of the address.
+   * @returns The zipcode of the Address.
+   */
+  getZipCode() {
+    return this.props.zipCode;
+  }
+
+  /**
+   * Gets the number of the address.
+   * @returns The number of the Address.
+   */
+  getNumber() {
+    return this.props.number;
+  }
+
+  /**
+   * Gets the complement of the address.
+   * @returns The complement of the Address.
+   */
+  getComplement() {
+    return this.props.complement;
+  }
+
+  /**
+   * Gets the neighborhood of the address.
+   * @returns The neighborhood of the Address.
+   */
+  getNeighborhood() {
+    return this.props.neighborhood;
   }
 }

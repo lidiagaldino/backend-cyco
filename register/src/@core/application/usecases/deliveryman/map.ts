@@ -1,7 +1,5 @@
 import { Deliveryman } from "../../../domain/entities/deliveryman.entity";
-import { Generator } from "../../../domain/entities/generator.entity";
 import { TDeliverymanOutputDTO } from "../../dto/output/deliveryman.dto.output";
-import { TGeneratorOutputDTO } from "../../dto/output/generator.dto.output";
 
 export const mapDeliverymanOutput = (deliveryman: Deliveryman): TDeliverymanOutputDTO => {
   return {
