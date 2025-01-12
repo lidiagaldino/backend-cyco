@@ -1,0 +1,23 @@
+POST http://localhost:3000/enterprise
+Content-Type: application/json
+
+{
+  "email": "enterprise@gmail.com",
+  "password": "12345678",
+  "commercialName": "Enterprise",
+  "companyName": "Company name",
+   "phone": {
+    "ddd": 11,
+    "ddi": 55,
+    "number": 961868671
+  },
+  "document": "61914383000106",
+  "address": {
+    "zipCode": "06449300",
+    "complement": "124B",
+    "number": "931"
+  }
+}
+
+###
+GET http://localhost:3000/enterprise/212b19b9-b315-4b6c-904d-7dd03e8e09b7

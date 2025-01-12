@@ -83,7 +83,6 @@ export class DeliverymanRepositoryImpl implements IDeliverymanRepository {
       }
     })
 
-    console.log(result)
     return this.mapOutput(result, color.id, model.id)
   }
 

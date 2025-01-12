@@ -1,5 +1,3 @@
-import { TVehiclePrismaResult } from "./vehicle-prisma-types";
-
 export type TDeliverymanPrismaResult = {
   id: string;
   licenseNumber: string;

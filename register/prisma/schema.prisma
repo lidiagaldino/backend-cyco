@@ -111,24 +111,27 @@ model tbl_vehicle_deliveryman {
 }
 
 model tbl_address {
-  id      String @id @default(uuid())
-  zipCode String
+  id                     String                   @id @default(uuid())
+  zipCode                String                   @unique
+  tbl_enterprise_address tbl_enterprise_address[]
 }
 
 model tbl_enterprise_address {
-  id             String           @id @default(uuid())
-  number         String
-  complement     String
-  tbl_enterprise tbl_enterprise[]
+  id            String         @id @default(uuid())
+  number        String
+  complement    String
+  enterprise    tbl_enterprise @relation(fields: [enterprise_id], references: [id])
+  address       tbl_address    @relation(fields: [address_id], references: [id])
+  enterprise_id String
+  address_id    String
 }
 
 model tbl_enterprise {
-  id             String                 @id @default(uuid())
-  commercialName String
-  modelName      String
-  document       String
-  address        tbl_enterprise_address @relation(fields: [address_id], references: [id])
-  user           tbl_user               @relation(fields: [user_id], references: [id])
-  user_id        String
-  address_id     String
+  id                     String                   @id @default(uuid())
+  commercialName         String
+  companyName            String
+  document               String                   @unique
+  user                   tbl_user                 @relation(fields: [user_id], references: [id])
+  user_id                String
+  tbl_enterprise_address tbl_enterprise_address[]
 }
