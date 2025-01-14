@@ -18,7 +18,8 @@ export const generatorFactory = (generator: TGeneratorInputDTO): Response<Genera
   const generatorEntity = Generator.create({
     birthDate: generator.birthDate,
     document: generator.document,
-    user: user.value.getValue()
+    user: user.value.getValue(),
+    address: []
   })
 
   if (generatorEntity.isFailure) return left(generatorEntity)

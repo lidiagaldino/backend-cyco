@@ -11,6 +11,9 @@ import { IPasswordCryptography } from '../../@core/domain/services/password-cryp
 import { TGeneratorInputDTO } from '../../@core/application/dto/input/generator.dto.input';
 import { IValidator } from '../../@core/domain/services/validator.service';
 import { FindGeneratorByIdUsecase } from '../../@core/application/usecases/generator/find-generator-by-id.usecase';
+import { TAddressInputDTO } from '../../@core/application/dto/input/address.dto.input';
+import { AddAddressUsecase } from '../../@core/application/usecases/generator/add-address.usecase';
+import { addressSchema } from '../../infra/validation/yup/schemas/address.schema';
 
 @Module({
   controllers: [GeneratorController],
@@ -40,6 +43,18 @@ import { FindGeneratorByIdUsecase } from '../../@core/application/usecases/gener
         repository
       ),
       inject: [GeneratorRepositoryImpl]
+    },
+    {
+      provide: AddAddressUsecase,
+      useFactory: (
+        repository: IGeneratorRepository,
+        validator: IValidator<TAddressInputDTO>
+      ) => new AddAddressUsecase(
+        repository,
+        validator,
+        addressSchema
+      ),
+      inject: [GeneratorRepositoryImpl, YupAdapter]
     }
   ],
 })

@@ -12,6 +12,11 @@ export const mapGeneratorOutput = (generator: Generator): TGeneratorOutputDTO =>
       ddd: generator.getUser().getPhone().getDdd(),
       ddi: generator.getUser().getPhone().getDdi(),
       number: generator.getUser().getPhone().getNumber()
-    }
+    },
+    address: generator.getAddress().map(item => ({
+      zipCode: item.getZipCode(),
+      number: item.getNumber(),
+      complement: item.getComplement()
+    }))
   }
 }

@@ -30,7 +30,8 @@ model tbl_generator {
   birthDate DateTime
   user      tbl_user @relation(fields: [user_id], references: [id])
 
-  user_id String
+  user_id               String
+  tbl_generator_address tbl_generator_address[]
 }
 
 model tbl_deliveryman {
@@ -114,6 +115,7 @@ model tbl_address {
   id                     String                   @id @default(uuid())
   zipCode                String                   @unique
   tbl_enterprise_address tbl_enterprise_address[]
+  tbl_generator_address  tbl_generator_address[]
 }
 
 model tbl_enterprise_address {
@@ -134,4 +136,14 @@ model tbl_enterprise {
   user                   tbl_user                 @relation(fields: [user_id], references: [id])
   user_id                String
   tbl_enterprise_address tbl_enterprise_address[]
+}
+
+model tbl_generator_address {
+  id           String        @id @default(uuid())
+  number       String
+  complement   String
+  generator    tbl_generator @relation(fields: [generator_id], references: [id])
+  address      tbl_address   @relation(fields: [address_id], references: [id])
+  generator_id String
+  address_id   String
 }

@@ -3,13 +3,16 @@ import { CreateGeneratorUsecase } from '../../@core/application/usecases/generat
 import { TGeneratorInputDTO } from '../../@core/application/dto/input/generator.dto.input';
 import { FindGeneratorByIdUsecase } from '../../@core/application/usecases/generator/find-generator-by-id.usecase';
 import { PrismaClientExceptionFilter } from '../../infra/error/prisma-client.exception-filter';
+import { AddAddressUsecase } from '../../@core/application/usecases/generator/add-address.usecase';
+import { TAddressInputDTO } from '../../@core/application/dto/input/address.dto.input';
 
 @Controller('generator')
 @UseFilters(PrismaClientExceptionFilter)
 export class GeneratorController {
   constructor(
     private readonly createUsecase: CreateGeneratorUsecase,
-    private readonly findByIdUsecase: FindGeneratorByIdUsecase
+    private readonly findByIdUsecase: FindGeneratorByIdUsecase,
+    private readonly addAddressUsecase: AddAddressUsecase
   ) { }
 
   @Post()
@@ -27,10 +30,10 @@ export class GeneratorController {
     return this.findByIdUsecase.execute(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateGeneratorDto: UpdateGeneratorDto) {
-  //   return this.generatorService.update(+id, updateGeneratorDto);
-  // }
+  @Post(':id/address')
+  addAddress(@Param('id') id: string, @Body() address: TAddressInputDTO) {
+    return this.addAddressUsecase.execute(address, id);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

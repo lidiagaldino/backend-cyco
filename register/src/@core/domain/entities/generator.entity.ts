@@ -1,11 +1,13 @@
 import { Guard } from "../shared/guard/guard"
 import { Result } from "../shared/result/result"
+import { Address } from "../value-objects/address.value-object"
 import { User } from "./user.entity"
 
 export type TGenerator = {
   birthDate: Date,
   document: string, //create document value object (cpf or cnpj)
-  user: User
+  user: User,
+  address: Address[]
 }
 
 export class Generator {
@@ -21,6 +23,7 @@ export class Generator {
       Guard.againstNullOrUndefined(generator.birthDate, 'birthDate'),
       Guard.againstNullOrUndefined(generator.document, 'document'),
       Guard.againstNullOrUndefined(generator.user, 'user'),
+      Guard.againstNullOrUndefined(generator.address, 'address'),
     ])
 
     if (guardResults.isFailure) {
@@ -46,6 +49,10 @@ export class Generator {
     return this.props.user
   }
 
+  public getAddress() {
+    return this.props.address
+  }
+
   public setDocument(document: string) {
     this.props.document = document
   }
@@ -60,5 +67,9 @@ export class Generator {
 
   public setId(id: string) {
     this.id = id
+  }
+
+  public setAddress(address: Address[]) {
+    this.props.address = address
   }
 }

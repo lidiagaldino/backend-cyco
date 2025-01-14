@@ -7,6 +7,11 @@ export type TGeneratorOutputDTO = {
     ddi: number;
     number: string;
   };
+  address: {
+    zipCode: string;
+    number: string;
+    complement: string;
+  }[]
   birthDate: Date;
   document: string;
 }
