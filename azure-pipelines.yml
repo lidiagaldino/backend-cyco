@@ -10,28 +10,29 @@ variables:
   vmImage: 'ubuntu-latest'
   azureSubscription: 'azure-devops-sp'  # Service connection do Azure Resource Manager
   acrConnection: 'cyco-acr-connection'  # Nome da service connection do Docker Registry (ACR)
-  acrName: 'cycocontainerregistry.azurecr.io'  # URL do ACR (usada apenas para referência)
+  acrName: 'cycocontainerregistry.azurecr.io'  # URL do ACR
   appServiceName: 'cyco'       # Nome do App Service
   resourceGroup: 'cyco-dev'     # Grupo de recursos
   serviceName: 'register'       # Nome do serviço
 
 stages:
-  - stage: Build_and_Push_Image
-    displayName: Build e Push da Imagem
+  - stage: Build_Deploy
+    displayName: Build e Deploy
     jobs:
-      - job: Build
-        displayName: Build Docker Image
+      - job: Build_and_Deploy_Job
+        displayName: Build e Deploy
         pool:
           vmImage: $(vmImage)
         steps:
+          # Checkout do código
           - checkout: self
 
-          # Login no ACR usando a service connection do Docker Registry
+          # Login no ACR
           - task: Docker@2
             displayName: Login no ACR
             inputs:
               command: login
-              containerRegistry: $(acrConnection)  # Nome da service connection!
+              containerRegistry: $(acrConnection)
 
           # Build da imagem Docker
           - task: Docker@2
@@ -54,22 +55,13 @@ stages:
                 $(Build.BuildId)
                 latest
 
-  - stage: Deploy_to_App_Service
-    displayName: Deploy no App Service  
-    dependsOn: Build_and_Push_Image
-    jobs:
-      - job: Deploy
-        displayName: Deploy no Azure
-        pool:
-          vmImage: $(vmImage)
-        steps:
-          # Atualiza o App Service para usar a nova imagem
+          # Deploy no App Service
           - task: AzureWebAppContainer@1
             displayName: Deploy no App Service
             inputs:
-              azureSubscription: $(azureSubscription)  # Service connection do Azure Resource Manager
+              azureSubscription: $(azureSubscription)
               appName: $(appServiceName)
               resourceGroupName: $(resourceGroup)
-              containerRegistry: $(acrConnection)  # Nome da service connection do Docker Registry
+              containerRegistry: $(acrConnection)
               repository: $(serviceName)
               tag: $(Build.BuildId)
