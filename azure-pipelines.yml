@@ -8,11 +8,12 @@ trigger:
 
 variables:
   vmImage: 'ubuntu-latest'
-  azureSubscription: 'azure-devops-sp'  # Nome da service connection do Azure DevOps
-  acrName: 'cycocontainerregistry.azurecr.io'      # Nome do seu ACR
-  appServiceName: 'cyco'       # Nome do App Service no Azure
-  resourceGroup: 'cyco-dev'     # Grupo de recursos do App Service
-  serviceName: 'register'                  # Nome do serviço (pasta do projeto)
+  azureSubscription: 'azure-devops-sp'  # Service connection do Azure Resource Manager
+  acrConnection: 'cyco-acr-connection'  # Nome da service connection do Docker Registry (ACR)
+  acrName: 'cycocontainerregistry.azurecr.io'  # URL do ACR (usada apenas para referência)
+  appServiceName: 'cyco'       # Nome do App Service
+  resourceGroup: 'cyco-dev'     # Grupo de recursos
+  serviceName: 'register'       # Nome do serviço
 
 stages:
   - stage: Build_and_Push_Image
@@ -25,12 +26,12 @@ stages:
         steps:
           - checkout: self
 
-          # Login no Azure Container Registry
+          # Login no ACR usando a service connection do Docker Registry
           - task: Docker@2
             displayName: Login no ACR
             inputs:
               command: login
-              containerRegistry: $(acrName)
+              containerRegistry: $(acrConnection)  # Nome da service connection!
 
           # Build da imagem Docker
           - task: Docker@2
@@ -66,9 +67,9 @@ stages:
           - task: AzureWebAppContainer@1
             displayName: Deploy no App Service
             inputs:
-              azureSubscription: $(azureSubscription)
+              azureSubscription: $(azureSubscription)  # Service connection do Azure Resource Manager
               appName: $(appServiceName)
               resourceGroupName: $(resourceGroup)
-              containerRegistry: $(acrName)
+              containerRegistry: $(acrConnection)  # Nome da service connection do Docker Registry
               repository: $(serviceName)
-              tag: $(Build.BuildId)  # Ou 'latest' se preferir
+              tag: $(Build.BuildId)
