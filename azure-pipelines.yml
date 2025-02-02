@@ -1,0 +1,74 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - register/**  
+
+variables:
+  vmImage: 'ubuntu-latest'
+  azureSubscription: 'azure-devops-sp'  # Nome da service connection do Azure DevOps
+  acrName: 'cycocontainerregistry.azurecr.io'      # Nome do seu ACR
+  appServiceName: 'cyco'       # Nome do App Service no Azure
+  resourceGroup: 'cyco-dev'     # Grupo de recursos do App Service
+  serviceName: 'register'                  # Nome do serviço (pasta do projeto)
+
+stages:
+  - stage: Build_and_Push_Image
+    displayName: Build e Push da Imagem
+    jobs:
+      - job: Build
+        displayName: Build Docker Image
+        pool:
+          vmImage: $(vmImage)
+        steps:
+          - checkout: self
+
+          # Login no Azure Container Registry
+          - task: Docker@2
+            displayName: Login no ACR
+            inputs:
+              command: login
+              containerRegistry: $(acrName)
+
+          # Build da imagem Docker
+          - task: Docker@2
+            displayName: Build da Imagem
+            inputs:
+              command: build
+              repository: $(serviceName)
+              dockerfile: $(serviceName)/Dockerfile
+              tags: |
+                $(Build.BuildId)
+                latest
+
+          # Push da imagem para o ACR
+          - task: Docker@2
+            displayName: Push para o ACR
+            inputs:
+              command: push
+              repository: $(serviceName)
+              tags: |
+                $(Build.BuildId)
+                latest
+
+  - stage: Deploy_to_App_Service
+    displayName: Deploy no App Service  
+    dependsOn: Build_and_Push_Image
+    jobs:
+      - job: Deploy
+        displayName: Deploy no Azure
+        pool:
+          vmImage: $(vmImage)
+        steps:
+          # Atualiza o App Service para usar a nova imagem
+          - task: AzureWebAppContainer@1
+            displayName: Deploy no App Service
+            inputs:
+              azureSubscription: $(azureSubscription)
+              appName: $(appServiceName)
+              resourceGroupName: $(resourceGroup)
+              containerRegistry: $(acrName)
+              repository: $(serviceName)
+              tag: $(Build.BuildId)  # Ou 'latest' se preferir

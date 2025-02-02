@@ -10,7 +10,7 @@ export class FindAllVehiclesUsecase {
 
   async execute(): Promise<TVehicleDtoOutput[]> {
     const vehicles = await this.vehicleRepository.findAll();
-    if (vehicles.length === 0) throw new NotFoundException("NOT_FOUND_VEHICLE")
+    if (!vehicles) throw new NotFoundException("NOT_FOUND_VEHICLE")
 
     return vehicles.map(item => mapVehiclesOutput(item))
   }
