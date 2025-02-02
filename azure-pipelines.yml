@@ -7,24 +7,21 @@ trigger:
       - register/**  
 
 variables:
-  vmImage: 'ubuntu-latest'
-  azureSubscription: 'azure-devops-sp'  # Service connection do Azure Resource Manager
-  acrConnection: 'cyco-acr-connection'  # Nome da service connection do Docker Registry (ACR)
-  acrName: 'cycocontainerregistry.azurecr.io'  # URL do ACR
-  appServiceName: 'cyco'       # Nome do App Service
-  resourceGroup: 'cyco-dev'     # Grupo de recursos
-  serviceName: 'register'       # Nome do serviço
+  azureSubscription: 'azure-devops-sp'
+  acrConnection: 'cyco-acr-connection'
+  acrName: 'cycocontainerregistry.azurecr.io'
+  appServiceName: 'cyco'
+  resourceGroup: 'cyco-dev'
+  serviceName: 'register'
 
 stages:
   - stage: Build_Deploy
     displayName: Build e Deploy
     jobs:
-      - job: Build_and_Deploy_Job
-        displayName: Build e Deploy
-        pool:
-          vmImage: $(vmImage)
+      - job: Single_Job
+        displayName: Único Job
+        pool: Default  # Usa self-hosted agent
         steps:
-          # Checkout do código
           - checkout: self
 
           # Login no ACR
@@ -34,7 +31,7 @@ stages:
               command: login
               containerRegistry: $(acrConnection)
 
-          # Build da imagem Docker
+          # Build da imagem
           - task: Docker@2
             displayName: Build da Imagem
             inputs:
@@ -45,7 +42,7 @@ stages:
                 $(Build.BuildId)
                 latest
 
-          # Push da imagem para o ACR
+          # Push para o ACR
           - task: Docker@2
             displayName: Push para o ACR
             inputs:
