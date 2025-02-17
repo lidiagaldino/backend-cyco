@@ -20,7 +20,8 @@ stages:
     jobs:
       - job: Single_Job
         displayName: Único Job
-        pool: Default  # Usa self-hosted agent
+        pool:
+          vmImage: 'ubuntu-latest'  # Usa agente da Microsoft
         steps:
           - checkout: self
 
