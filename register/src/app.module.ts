@@ -6,10 +6,11 @@ import { DeliverymanModule } from './resources/deliveryman/deliveryman.module';
 import { APP_FILTER } from '@nestjs/core';
 import { PrismaClientExceptionFilter } from './infra/error/prisma-client.exception-filter';
 import { VehicleModule } from './resources/vehicle/vehicle.module';
-import { EnterpriseModule } from './resources/enterprise/enterprise.module';
+import { WasteCollectorsModule } from './resources/waste-collectors/waste-collectors.module';
+import { MaterialsModule } from './resources/materials/materials.module';
 
 @Module({
-  imports: [GeneratorModule, DeliverymanModule, VehicleModule, EnterpriseModule],
+  imports: [GeneratorModule, DeliverymanModule, VehicleModule, WasteCollectorsModule, MaterialsModule],
   controllers: [AppController],
   providers: [
     AppService,

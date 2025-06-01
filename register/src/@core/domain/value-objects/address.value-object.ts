@@ -3,8 +3,8 @@ import { Result } from '../shared/result/result';
 
 export type TAddressProps = {
   zipCode: string;
-  number: string;
-  complement: string;
+  number?: string;
+  complement?: string;
 };
 
 /**
@@ -29,9 +29,7 @@ export class Address {
    */
   public static create(address: TAddressProps): Result<Address> {
     const guardResults = Guard.combine([
-      Guard.againstNullOrUndefined(address.zipCode, 'zipCode'),
-      Guard.againstNullOrUndefined(address.number, 'number'),
-      Guard.againstNullOrUndefined(address.complement, 'complement')
+      Guard.againstNullOrUndefined(address.zipCode, 'zipCode')
     ]);
     if (guardResults.isFailure)
       return Result.fail<Address>(guardResults.getErrorValue());

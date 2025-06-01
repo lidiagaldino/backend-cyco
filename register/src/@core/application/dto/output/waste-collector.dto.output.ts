@@ -1,6 +1,6 @@
-export type TEnterpriseInputDTO = {
+export type TWasteCollectorOutputDTO = {
+  id: string;
   email: string;
-  password: string;
   phone: {
     ddd: number;
     ddi: number;
@@ -12,6 +12,10 @@ export type TEnterpriseInputDTO = {
     complement: string;
   }
   document: string;
-  commercialName: string;
-  companyName: string;
+  isEnterprise: boolean;
+  materials: string[];
+  enterprise?: {
+    commercialName: string;
+    companyName: string;
+  };
 }

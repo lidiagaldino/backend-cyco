@@ -92,7 +92,23 @@ async function main() {
     },
   });
 
-  console.log('Seed completed:', { vehicle1, vehicle2 });
+  const material1 = await prisma.tbl_materials.upsert({
+    where: { name: 'Plastic' },
+    update: {},
+    create: { name: 'Plastic' },
+  });
+  const material2 = await prisma.tbl_materials.upsert({
+    where: { name: 'Metal' },
+    update: {},
+    create: { name: 'Metal' },
+  });
+  const material3 = await prisma.tbl_materials.upsert({
+    where: { name: 'Glass' },
+    update: {},
+    create: { name: 'Glass' },
+  });
+
+  console.log('Seed completed:', { vehicle1, vehicle2, material1, material2, material3 });
 }
 
 main()

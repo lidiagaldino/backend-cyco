@@ -14,14 +14,14 @@ datasource db {
 }
 
 model tbl_user {
-  id              String            @id @default(uuid())
-  email           String            @unique
-  password        String
-  phone           String            @unique
-  name            String
-  tbl_generator   tbl_generator[]
-  tbl_deliveryman tbl_deliveryman[]
-  tbl_enterprise  tbl_enterprise[]
+  id                  String                @id @default(uuid())
+  email               String                @unique
+  password            String
+  phone               String                @unique
+  name                String
+  tbl_generator       tbl_generator[]
+  tbl_deliveryman     tbl_deliveryman[]
+  tbl_waste_collector tbl_waste_collector[]
 }
 
 model tbl_generator {
@@ -111,31 +111,58 @@ model tbl_vehicle_deliveryman {
   color_id       String
 }
 
-model tbl_address {
-  id                     String                   @id @default(uuid())
-  zipCode                String                   @unique
-  tbl_enterprise_address tbl_enterprise_address[]
-  tbl_generator_address  tbl_generator_address[]
+model tbl_materials {
+  id                            String                          @id @default(uuid())
+  name                          String                          @unique
+  tbl_materials_waste_collector tbl_materials_waste_collector[]
 }
 
-model tbl_enterprise_address {
-  id            String         @id @default(uuid())
-  number        String
-  complement    String
-  enterprise    tbl_enterprise @relation(fields: [enterprise_id], references: [id])
-  address       tbl_address    @relation(fields: [address_id], references: [id])
-  enterprise_id String
-  address_id    String
+model tbl_materials_waste_collector {
+  id                 String              @id @default(uuid())
+  waste_collector    tbl_waste_collector @relation(fields: [waste_collector_id], references: [id])
+  waste_collector_id String
+  materials          tbl_materials       @relation(fields: [materials_id], references: [id])
+  materials_id       String
+}
+
+model tbl_waste_collector {
+  id           String      @id @default(uuid())
+  document     String      @unique
+  isEnterprise Boolean
+  user         tbl_user    @relation(fields: [user_id], references: [id])
+
+  user_id                       String
+  tbl_enterprise                tbl_enterprise[]
+  tbl_materials_waste_collector tbl_materials_waste_collector[]
+
+  tbl_waste_collector_address tbl_waste_collector_address[]
+}
+
+model tbl_address {
+  id                    String                  @id @default(uuid())
+  zipCode               String                  @unique
+  tbl_generator_address tbl_generator_address[]
+
+  tbl_waste_collector_address tbl_waste_collector_address[]
+}
+
+model tbl_waste_collector_address {
+  id           String      @id @default(uuid())
+  number       String?
+  complement   String?
+  waste_collector tbl_waste_collector @relation(fields: [waste_collector_id], references: [id])
+  address      tbl_address @relation(fields: [address_id], references: [id])
+  
+  waste_collector_id String
+  address_id         String
 }
 
 model tbl_enterprise {
-  id                     String                   @id @default(uuid())
-  commercialName         String
-  companyName            String
-  document               String                   @unique
-  user                   tbl_user                 @relation(fields: [user_id], references: [id])
-  user_id                String
-  tbl_enterprise_address tbl_enterprise_address[]
+  id                 String              @id @default(uuid())
+  commercialName     String
+  companyName        String
+  wasteCollector     tbl_waste_collector @relation(fields: [waste_collector_id], references: [id])
+  waste_collector_id String
 }
 
 model tbl_generator_address {
