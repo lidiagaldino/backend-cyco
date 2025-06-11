@@ -8,9 +8,10 @@ import { PrismaClientExceptionFilter } from './infra/error/prisma-client.excepti
 import { VehicleModule } from './resources/vehicle/vehicle.module';
 import { WasteCollectorsModule } from './resources/waste-collectors/waste-collectors.module';
 import { MaterialsModule } from './resources/materials/materials.module';
+import { SessionModule } from './resources/session/session.module';
 
 @Module({
-  imports: [GeneratorModule, DeliverymanModule, VehicleModule, WasteCollectorsModule, MaterialsModule],
+  imports: [GeneratorModule, DeliverymanModule, VehicleModule, WasteCollectorsModule, MaterialsModule, SessionModule],
   controllers: [AppController],
   providers: [
     AppService,

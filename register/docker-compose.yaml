@@ -12,17 +12,17 @@ services:
     networks:
       - register-network
 
-  api:
-    build: .
-    container_name: register-service
-    environment:
-      DATABASE_URL: "mysql://root:root@register-database:3306/cyco"
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    networks:
-      - register-network
+  # api:
+  #   build: .
+  #   container_name: register-service
+  #   environment:
+  #     DATABASE_URL: "mysql://root:root@register-database:3306/cyco"
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - register-network
 
 networks:
   register-network:
